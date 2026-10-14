@@ -1,8 +1,8 @@
 import React from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type KeyboardTypeOptions, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View, type KeyboardTypeOptions, type ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, space } from '../design/tokens.ts';
 import { BRAND } from '../config/brand.ts';
 import { en } from '../i18n/en.ts';
@@ -38,7 +38,12 @@ export function Info({ children, tone = 'blue', icon = 'information-circle-outli
 export function Loading() { return <View style={styles.loading}><ActivityIndicator color={colors.blue} size="large"/><Body>Opening your local demo…</Body></View>; }
 export function Page({ eyebrow, title, subtitle, children, back = false, right }: { eyebrow?: string; title: string; subtitle?: string; children: React.ReactNode; back?: boolean; right?: React.ReactNode }) {
   const nav = useNavigation<any>();
-  return <SafeAreaView style={styles.safe} edges={['top']}><ScrollView style={styles.scroll} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
+  const { height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  // The web export hides document scrolling. Give its inner ScrollView an explicit
+  // viewport height so long screens can scroll inside React Navigation's card.
+  const webHeight = back ? height : height - 64 - Math.max(insets.bottom, 6);
+  return <SafeAreaView style={[styles.safe, Platform.OS === 'web' && { height: Math.max(webHeight, 0), flex: 0 }]} edges={['top']}><ScrollView style={styles.scroll} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
     <View style={styles.inner}>
       <Row style={{ alignItems: 'center', marginBottom: 22 }}>
         {back ? <Pressable accessibilityLabel="Go back" accessibilityRole="button" onPress={() => nav.canGoBack() ? nav.goBack() : nav.navigate('Tabs', { screen: 'Home' })} style={styles.back}><Icon name="arrow-back" color={colors.navy}/></Pressable> : <View style={styles.brandMark}><Icon name="scan-outline" color={colors.white} size={18}/></View>}
