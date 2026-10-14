@@ -38,7 +38,7 @@ export function Info({ children, tone = 'blue', icon = 'information-circle-outli
 export function Loading() { return <View style={styles.loading}><ActivityIndicator color={colors.blue} size="large"/><Body>Opening your local demo…</Body></View>; }
 export function Page({ eyebrow, title, subtitle, children, back = false, right }: { eyebrow?: string; title: string; subtitle?: string; children: React.ReactNode; back?: boolean; right?: React.ReactNode }) {
   const nav = useNavigation<any>();
-  return <SafeAreaView style={styles.safe} edges={['top']}><ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
+  return <SafeAreaView style={styles.safe} edges={['top']}><ScrollView style={styles.scroll} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
     <View style={styles.inner}>
       <Row style={{ alignItems: 'center', marginBottom: 22 }}>
         {back ? <Pressable accessibilityLabel="Go back" accessibilityRole="button" onPress={() => nav.canGoBack() ? nav.goBack() : nav.navigate('Tabs', { screen: 'Home' })} style={styles.back}><Icon name="arrow-back" color={colors.navy}/></Pressable> : <View style={styles.brandMark}><Icon name="scan-outline" color={colors.white} size={18}/></View>}
@@ -58,7 +58,7 @@ export function ActionCard({ title, description, icon, onPress, tint = colors.bl
 export function KeyValue({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) { return <Row style={{ alignItems: 'center', paddingVertical: 5 }}><Text style={styles.kvLabel}>{label}</Text><Text style={[styles.kvValue, strong && { fontWeight: '800', fontSize: 18 }]}>{value}</Text></Row>; }
 export function SectionTitle({ title, caption }: { title: string; caption?: string }) { return <View style={{ gap: 3, marginTop: 6 }}><H2>{title}</H2>{caption && <Body>{caption}</Body>}</View>; }
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.background }, page: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 16, paddingBottom: 42 }, inner: { width: '100%', maxWidth: 540, alignSelf: 'center' },
+  safe: { flex: 1, minHeight: 0, backgroundColor: colors.background }, scroll: { flex: 1, minHeight: 0 }, page: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 16, paddingBottom: 42 }, inner: { width: '100%', maxWidth: 540, alignSelf: 'center' },
   brandMark: { width: 30, height: 30, backgroundColor: colors.blue, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 8 }, brandText: { fontSize: 12, fontWeight: '900', color: colors.navy, letterSpacing: 2.1 },
   back: { width: 44, height: 44, backgroundColor: colors.white, borderWidth: 1, borderColor: colors.line, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginRight: 12 },
   label: { fontSize: 11, fontWeight: '800', letterSpacing: 2, marginBottom: 8 }, h1: { fontSize: 32, lineHeight: 38, fontWeight: '800', color: colors.navy, letterSpacing: -0.8 }, h2: { fontSize: 19, lineHeight: 25, fontWeight: '800', color: colors.navy }, body: { fontSize: 15, lineHeight: 23, color: colors.muted },
