@@ -1,0 +1,14 @@
+node_modules/
+.expo/
+dist/
+.vercel/
+.netlify/
+.env
+.env.*
+!.env.example
+coverage/
+*.log
+.DS_Store
+.npm-cache/
+artifacts/
+git-ready/
