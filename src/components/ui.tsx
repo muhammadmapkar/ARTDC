@@ -43,7 +43,7 @@ export function Page({ eyebrow, title, subtitle, children, back = false, right }
   // The web export hides document scrolling. Give its inner ScrollView an explicit
   // viewport height so long screens can scroll inside React Navigation's card.
   const webHeight = back ? height : height - 64 - Math.max(insets.bottom, 6);
-  return <SafeAreaView style={[styles.safe, Platform.OS === 'web' && { height: Math.max(webHeight, 0), flex: 0 }]} edges={['top']}><ScrollView style={styles.scroll} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
+  return <SafeAreaView style={[styles.safe, Platform.OS === 'web' && { height: Math.max(webHeight, 0), flex: 0 }]} edges={['top']}><ScrollView style={[styles.scroll, Platform.OS === 'web' && { height: Math.max(webHeight, 0), flex: 0 }]} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
     <View style={styles.inner}>
       <Row style={{ alignItems: 'center', marginBottom: 22 }}>
         {back ? <Pressable accessibilityLabel="Go back" accessibilityRole="button" onPress={() => nav.canGoBack() ? nav.goBack() : nav.navigate('Tabs', { screen: 'Home' })} style={styles.back}><Icon name="arrow-back" color={colors.navy}/></Pressable> : <View style={styles.brandMark}><Icon name="scan-outline" color={colors.white} size={18}/></View>}
