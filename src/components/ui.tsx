@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, radius, space } from '../design/tokens.ts';
 import { BRAND } from '../config/brand.ts';
 import { en } from '../i18n/en.ts';
+import { usePhoneViewportHeight } from './WebPhoneFrame.tsx';
 
 export function Icon({ name, size = 22, color = colors.blue }: { name: React.ComponentProps<typeof Ionicons>['name']; size?: number; color?: string }) { return <Ionicons name={name} size={size} color={color} />; }
 export function Label({ children, color = colors.blue }: { children: React.ReactNode; color?: string }) { return <Text style={[styles.label, { color }]}>{children}</Text>; }
@@ -39,9 +40,10 @@ export function Loading() { return <View style={styles.loading}><ActivityIndicat
 export function Page({ eyebrow, title, subtitle, children, back = false, right }: { eyebrow?: string; title: string; subtitle?: string; children: React.ReactNode; back?: boolean; right?: React.ReactNode }) {
   const nav = useNavigation<any>();
   const { height } = useWindowDimensions();
+  const phoneHeight = usePhoneViewportHeight();
   // Cap the web detail scroll area to the viewport while letting navigation
   // control the outer screen's flex layout.
-  const webScrollCap = Platform.OS === 'web' && back ? { maxHeight: Math.max(height, 0) } : null;
+  const webScrollCap = Platform.OS === 'web' && back ? { maxHeight: Math.max(phoneHeight ?? height, 0) } : null;
   return <SafeAreaView style={styles.safe} edges={['top']}><ScrollView style={[styles.scroll, webScrollCap]} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
     <View style={styles.inner}>
       <Row style={{ alignItems: 'center', marginBottom: 22 }}>
