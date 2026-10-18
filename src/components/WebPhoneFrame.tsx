@@ -18,7 +18,7 @@ export function WebPhoneFrame({ children }: { children: React.ReactNode }) {
     <View style={[styles.phone, { width: phoneWidth, height: phoneHeight }]}>
       <PhoneViewportContext.Provider value={phoneHeight - 16}><View style={styles.screen}>{children}</View></PhoneViewportContext.Provider>
     </View>
-    <Text style={styles.caption}>REPAIRLENS · INTERACTIVE PROTOTYPE</Text>
+    <Text style={styles.caption}>AUTOAMANA · INTERACTIVE PROTOTYPE</Text>
   </View>;
 }
 
